@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KlukiShop — Telegram аккаунты</title>
+    <meta name="description" content="Качественные Telegram аккаунты из разных стран. Гарантия входа, быстрая выдача.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1c1c1e;
+            --bg-elevated: #2c2c2e;
+            --bg-card: #2c2c2e;
+            --bg-hover: #3a3a3c;
+            --text: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-tertiary: #6e6e73;
+            --accent: #0a84ff;
+            --accent-hover: #409cff;
+            --accent-glow: rgba(10, 132, 255, 0.35);
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 18px;
+            --radius-sm: 12px;
+            --shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+            --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.47;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body.modal-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; }
+
+        .container { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+            50% { box-shadow: 0 0 0 12px transparent; }
+        }
+
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(10, 132, 255, 0.15); }
+            50% { box-shadow: 0 0 32px rgba(10, 132, 255, 0.3); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .animate {
+            opacity: 0;
+            animation: fadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.08s; }
+        .delay-2 { animation-delay: 0.16s; }
+        .delay-3 { animation-delay: 0.24s; }
+        .delay-4 { animation-delay: 0.32s; }
+
+        /* Header */
+        header {
+            background: rgba(28, 28, 30, 0.78);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 48px; max-width: 980px; margin: 0 auto; padding: 0 22px;
+        }
+
+        .logo {
+            font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em;
+            transition: text-shadow 0.3s;
+        }
+        .logo:hover { text-shadow: 0 0 18px var(--accent-glow); }
+        .logo span { color: var(--accent); }
+
+        nav { display: flex; gap: 28px; }
+        nav a {
+            font-size: 0.78rem; color: var(--text); font-weight: 400; opacity: 0.75;
+            transition: all 0.25s; position: relative;
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: -4px; left: 50%; width: 0; height: 1.5px;
+            background: var(--accent); transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateX(-50%); border-radius: 2px;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+        nav a:hover { opacity: 1; }
+        nav a:hover::after { width: 100%; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 11px 22px; border-radius: 980px; font-weight: 500; font-size: 0.9rem;
+            border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            font-family: inherit; position: relative;
+        }
+
+        .btn-primary {
+            background: var(--accent); color: white;
+            box-shadow: 0 0 0 0 var(--accent-glow);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px var(--accent-glow);
+        }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-outline {
+            background: transparent; color: var(--accent); font-weight: 500;
+        }
+        .btn-outline:hover {
+            text-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .btn-header {
+            background: var(--accent); color: white;
+            padding: 6px 14px; font-size: 0.78rem; border-radius: 980px;
+            transition: all 0.3s;
+        }
+        .btn-header:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 0 18px var(--accent-glow);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 96px 0 72px; text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 400px;
+            background: radial-gradient(ellipse, rgba(10, 132, 255, 0.12) 0%, transparent 65%);
+            pointer-events: none;
+            animation: float 9s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 3.4rem; font-weight: 700; letter-spacing: -0.035em;
+            margin-bottom: 16px; line-height: 1.08; color: var(--text);
+            position: relative;
+        }
+        .hero p {
+            font-size: 1.4rem; color: var(--text-secondary); max-width: 520px;
+            margin: 0 auto 36px; font-weight: 400; line-height: 1.35;
+        }
+        .hero-cta {
+            display: flex; justify-content: center; gap: 24px;
+            flex-wrap: wrap; align-items: center;
+        }
+        .hero-cta .btn-primary {
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        /* Sections */
+        .section { padding: 72px 0; }
+        .section-header { text-align: center; margin-bottom: 48px; }
+        .section-title {
+            font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 10px; color: var(--text);
+        }
+        .section-subtitle { color: var(--text-secondary); font-size: 1.2rem; font-weight: 400; }
+
+        /* Catalog */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--bg-card); border-radius: var(--radius); padding: 26px 22px;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex; flex-direction: column; opacity: 0;
+            animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            position: relative; overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.1), transparent 60%);
+            opacity: 0; transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 24px rgba(10, 132, 255, 0.12);
+            border-color: rgba(10, 132, 255, 0.25);
+            background: var(--bg-hover);
+        }
+        .card:hover::before { opacity: 1; }
+
+        .card-country {
+            font-weight: 600; font-size: 1.02rem; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em;
+            position: relative;
+        }
+        .card-prices {
+            display: flex; flex-direction: column; gap: 2px;
+            margin-bottom: 18px; flex-grow: 1; position: relative;
+        }
+        .price-main {
+            font-size: 1.45rem; font-weight: 600; color: var(--text);
+            letter-spacing: -0.02em; transition: color 0.3s, text-shadow 0.3s;
+        }
+        .card:hover .price-main {
+            color: var(--accent);
+            text-shadow: 0 0 16px var(--accent-glow);
+        }
+        .price-alt { font-size: 0.82rem; color: var(--text-tertiary); }
+
+        .card .btn {
+            width: 100%; background: rgba(255,255,255,0.08); color: var(--accent);
+            font-weight: 500; padding: 10px; border-radius: var(--radius-sm); font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .card .btn:hover {
+            background: rgba(10, 132, 255, 0.15);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        /* Steps */
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .step { text-align: center; padding: 8px; transition: transform 0.3s; }
+        .step:hover { transform: translateY(-4px); }
+
+        .step-num {
+            width: 42px; height: 42px; background: var(--bg-card); color: var(--text);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 1.05rem; margin: 0 auto 16px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: all 0.35s;
+        }
+        .step:hover .step-num {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.08);
+        }
+        .step h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
+        .step p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.4; }
+
+        /* Guarantees */
+        .guarantees { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .guarantee {
+            background: var(--bg-card); border-radius: var(--radius); padding: 28px;
+            display: flex; gap: 16px; align-items: flex-start; transition: all 0.35s;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+        }
+        .guarantee:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(10, 132, 255, 0.1);
+            background: var(--bg-hover);
+            border-color: rgba(10, 132, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        .guarantee-icon {
+            width: 42px; height: 42px; background: rgba(255,255,255,0.06);
+            border-radius: 11px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0; transition: all 0.35s;
+        }
+        .guarantee:hover .guarantee-icon {
+            background: rgba(10, 132, 255, 0.15);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+        .guarantee h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.01em; }
+        .guarantee p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.4; }
+
+        /* Reviews */
+        .reviews-list { display: grid; gap: 14px; margin-bottom: 36px; }
+        .review {
+            background: var(--bg-card); border-radius: var(--radius); padding: 26px 30px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            animation: fadeUp 0.5s ease; transition: all 0.3s;
+        }
+        .review:hover {
+            border-color: rgba(10, 132, 255, 0.2);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 0 16px rgba(10, 132, 255, 0.08);
+        }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .review-author { font-weight: 600; font-size: 0.98rem; }
+        .review-stars { color: #ff9f0a; font-size: 0.88rem; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 159, 10, 0.3); }
+        .review-text { color: var(--text-secondary); font-size: 0.98rem; line-height: 1.5; }
+
+        .review-form {
+            background: var(--bg-card); border-radius: var(--radius); padding: 32px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .review-form:focus-within {
+            border-color: rgba(10, 132, 255, 0.3);
+            box-shadow: 0 0 24px rgba(10, 132, 255, 0.1);
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 7px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+            padding: 13px 15px; color: var(--text); font-family: inherit; font-size: 0.98rem; outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.2), 0 0 16px rgba(10, 132, 255, 0.1);
+            background: #252527;
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+
+        /* CTA */
+        .cta { text-align: center; padding: 72px 0; position: relative; }
+        .cta::before {
+            content: '';
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 400px; height: 200px;
+            background: radial-gradient(ellipse, rgba(10, 132, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta h2 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 12px; position: relative; }
+        .cta p { color: var(--text-secondary); margin-bottom: 28px; font-size: 1.25rem; max-width: 420px; margin-left: auto; margin-right: auto; position: relative; }
+        .cta .btn-primary { animation: softGlow 3s ease-in-out infinite; position: relative; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 24px 0; background: var(--bg); }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; font-size: 0.75rem; color: var(--text-tertiary); }
+        .footer-links { display: flex; gap: 22px; }
+        .footer-links a { color: var(--text-tertiary); transition: all 0.25s; }
+        .footer-links a:hover { color: var(--text); text-shadow: 0 0 10px var(--accent-glow); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: var(--bg-elevated); border-radius: 20px; width: 100%; max-width: 380px; max-height: 90vh;
+            overflow-y: auto; padding: 32px 28px; position: relative;
+            transform: scale(0.92) translateY(16px);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(10, 132, 255, 0.08);
+            border: 1px solid var(--border);
+        }
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+        .modal-close {
+            position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: none; color: var(--text-secondary); font-size: 1.05rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.14); color: var(--text);
+            box-shadow: 0 0 12px rgba(255,255,255,0.1);
+        }
+
+        .modal-flag { font-size: 2.2rem; margin-bottom: 6px; animation: scaleIn 0.4s ease; }
+        .modal-country { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .modal-price {
+            font-size: 1.9rem; font-weight: 600; color: var(--accent);
+            margin-bottom: 2px; letter-spacing: -0.02em;
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+        .modal-price-alt { color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: 26px; }
+        .modal-section { margin-bottom: 22px; }
+        .modal-section h4 { font-size: 0.72rem; color: var(--text-tertiary); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+        .modal-guarantees { display: grid; gap: 9px; }
+        .modal-guarantee { display: flex; align-items: center; gap: 9px; font-size: 0.92rem; color: var(--text); }
+        .modal-guarantee span { color: #30d158; font-size: 0.95rem; text-shadow: 0 0 8px rgba(48, 209, 88, 0.4); }
+        .payment-methods { display: flex; flex-wrap: wrap; gap: 7px; }
+        .payment-tag {
+            background: rgba(255,255,255,0.08); padding: 7px 13px; border-radius: 980px;
+            font-size: 0.82rem; color: var(--text-secondary); transition: all 0.25s;
+        }
+        .payment-tag:hover {
+            background: rgba(10, 132, 255, 0.15); color: var(--text);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+        .modal-cta { margin-top: 6px; }
+        .modal-cta .btn {
+            width: 100%; padding: 13px; font-size: 0.98rem; border-radius: 980px;
+            animation: softGlow 2.5s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .hero { padding: 64px 0 52px; }
+            .section-title { font-size: 2rem; }
+            .steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .guarantees { grid-template-columns: 1fr; }
+            .catalog-grid { grid-template-columns: 1fr 1fr; }
+            .section { padding: 52px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .catalog-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.1rem; }
+            .cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">Kluki<span>Shop</span></a>
+            <nav>
+                <a href="#catalog">Каталог</a>
+                <a href="#how">Как купить</a>
+                <a href="#guarantees">Гарантии</a>
+                <a href="#reviews">Отзывы</a>
+            </nav>
+            <a href="https://t.me/menedzerkluki" target="_blank" rel="noopener noreferrer" class="btn btn-header">Менеджер</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="animate">Telegram-аккаунты<br>из любой страны</h1>
+            <p class="animate delay-1">Прогретые и свежие аккаунты.<br>Быстрая выдача. Гарантия входа.</p>
+            <div class="hero-cta animate delay-2">
+                <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+                <a href="https://t.me/menedzerkluki" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Написать менеджеру</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="catalog">
+        <div class="container">
+            <div class="section-header animate">
+                <h2 class="section-title">Каталог</h2>
+                <p class="section-subtitle">Выберите страну. Цены за один аккаунт.</p>
+            </div>
+            <div class="catalog-grid" id="catalog-grid"></div>
+        </div>
+    </section>
+
+    <section class="section" id="how">
+        <div class="container">
+            <div class="section-header animate">
+                <h2 class="section-title">Как купить</h2>
+                <p class="section-subtitle">Всего четыре простых шага</p>
+            </div>
+            <div class="steps">
+                <div class="step animate delay-1"><div class="step-num">1</div><h3>Выберите страну</h3><p>Найдите нужную страну в каталоге</p></div>
+                <div class="step animate delay-2"><div class="step-num">2</div><h3>Нажмите «Купить»</h3><p>Откроется окно с деталями заказа</p></div>
+                <div class="step animate delay-3"><div class="step-num">3</div><h3>Оплатите</h3><p>Крипта, карты или Telegram Stars</p></div>
+                <div class="step animate delay-4"><div class="step-num">4</div><h3>Получите</h3><p>Данные придут сразу после оплаты</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="guarantees">
+        <div class="container">
+            <div class="section-header animate">
+                <h2 class="section-title">Гарантии</h2>
+                <p class="section-subtitle">Мы отвечаем за каждый аккаунт</p>
+            </div>
+            <div class="guarantees">
+                <div class="guarantee animate delay-1"><div class="guarantee-icon">🔒</div><div><h3>Гарантия входа</h3><p>Если аккаунт не заходит — заменим или вернём деньги.</p></div></div>
+                <div class="guarantee animate delay-2"><div class="guarantee-icon">⚡</div><div><h3>Быстрая выдача</h3><p>Обычно выдаём в течение нескольких минут после оплаты.</p></div></div>
+                <div class="guarantee animate delay-3"><div class="guarantee-icon">🌍</div><div><h3>Любые страны</h3><p>Прогретые и новые аккаунты из разных регионов.</p></div></div>
+                <div class="guarantee animate delay-4"><div class="guarantee-icon">💬</div><div><h3>Поддержка</h3><p>Менеджер всегда на связи и поможет на любом этапе.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="reviews">
+        <div class="container">
+            <div class="section-header animate">
+                <h2 class="section-title">Отзывы</h2>
+                <p class="section-subtitle">Что говорят покупатели</p>
+            </div>
+            <div class="reviews-list" id="reviews-list">
+                <div class="review"><div class="review-header"><span class="review-author">Алексей</span><span class="review-stars">★★★★★</span></div><p class="review-text">Брал аккаунты США и Германии. Всё зашло с первого раза, выдали очень быстро.</p></div>
+                <div class="review"><div class="review-header"><span class="review-author">Марина</span><span class="review-stars">★★★★★</span></div><p class="review-text">Покупала прогретые аккаунты Польши. Качество отличное, поддержка отвечает оперативно.</p></div>
+                <div class="review"><div class="review-header"><span class="review-author">Дмитрий</span><span class="review-stars">★★★★☆</span></div><p class="review-text">Всё прошло хорошо. Один аккаунт заменили без лишних вопросов. Буду брать ещё.</p></div>
+            </div>
+            <div class="review-form animate">
+                <h3 style="margin-bottom: 22px; font-size: 1.2rem; font-weight: 600;">Оставить отзыв</h3>
+                <form id="review-form" autocomplete="off">
+                    <div class="hp-field" aria-hidden="true"><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
+                    <div class="form-group"><label for="review-name">Имя</label><input type="text" id="review-name" placeholder="Как вас зовут" required maxlength="40"></div>
+                    <div class="form-group"><label for="review-rating">Оценка</label><select id="review-rating"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select></div>
+                    <div class="form-group"><label for="review-text">Отзыв</label><textarea id="review-text" placeholder="Расскажите о покупке..." required maxlength="500"></textarea></div>
+                    <button type="submit" class="btn btn-primary" id="review-submit">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="cta animate">
+            <h2>Готовы купить?</h2>
+            <p>Выберите страну или сразу напишите менеджеру.</p>
+            <a href="https://t.me/menedzerkluki" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Перейти в Telegram</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-inner">
+            <div>Copyright © 2026 KlukiShop</div>
+            <div class="footer-links">
+                <a href="#catalog">Каталог</a>
+                <a href="#how">Как купить</a>
+                <a href="#guarantees">Гарантии</a>
+                <a href="https://t.me/menedzerkluki" target="_blank" rel="noopener noreferrer">Менеджер</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="buy-modal">
+        <div class="modal">
+            <button class="modal-close" id="modal-close" aria-label="Закрыть">×</button>
+            <div class="modal-flag" id="modal-flag">🇺🇦</div>
+            <div class="modal-country" id="modal-country">Украина</div>
+            <div class="modal-price" id="modal-price">$7.60</div>
+            <div class="modal-price-alt" id="modal-price-alt">312 ₴ · 712 ₽</div>
+            <div class="modal-section"><h4>Гарантии</h4><div class="modal-guarantees"><div class="modal-guarantee"><span>✓</span> Гарантия входа</div><div class="modal-guarantee"><span>✓</span> Быстрая выдача</div><div class="modal-guarantee"><span>✓</span> Поддержка 24/7</div></div></div>
+            <div class="modal-section"><h4>Оплата</h4><div class="payment-methods"><div class="payment-tag">Крипта</div><div class="payment-tag">Карты Украины</div><div class="payment-tag">Telegram Stars</div></div></div>
+            <div class="modal-cta"><a href="https://t.me/menedzerkluki" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Написать менеджеру</a></div>
+        </div>
+    </div>
+
+    <script>
+        const accounts = [
+            { country: "Украина", flag: "🇺🇦", usd: 7.60, uah: 312, rub: 712 },
+            { country: "Россия", flag: "🇷🇺", usd: 3.80, uah: 156, rub: 356 },
+            { country: "Англия", flag: "🇬🇧", usd: 2.90, uah: 119, rub: 272 },
+            { country: "Канада", flag: "🇨🇦", usd: 2.90, uah: 119, rub: 272 },
+            { country: "Румыния", flag: "🇷🇴", usd: 3.80, uah: 156, rub: 356 },
+            { country: "Филиппины", flag: "🇵🇭", usd: 1.90, uah: 78, rub: 178 },
+            { country: "Колумбия", flag: "🇨🇴", usd: 1.80, uah: 74, rub: 169 },
+            { country: "Кыргызстан", flag: "🇰🇬", usd: 3.80, uah: 156, rub: 356 },
+            { country: "Франция", flag: "🇫🇷", usd: 7.50, uah: 308, rub: 703 },
+            { country: "Чехия", flag: "🇨🇿", usd: 5.90, uah: 242, rub: 553 },
+            { country: "США", flag: "🇺🇸", usd: 1.60, uah: 66, rub: 150 },
+            { country: "Кения", flag: "🇰🇪", usd: 1.90, uah: 78, rub: 178 },
+            { country: "Германия", flag: "🇩🇪", usd: 5.50, uah: 226, rub: 516 },
+            { country: "Аргентина", flag: "🇦🇷", usd: 2.70, uah: 111, rub: 253 },
+            { country: "Казахстан", flag: "🇰🇿", usd: 5.20, uah: 213, rub: 487 },
+            { country: "Польша", flag: "🇵🇱", usd: 5.20, uah: 213, rub: 487 },
+            { country: "Испания", flag: "🇪🇸", usd: 6.50, uah: 267, rub: 609 },
+            { country: "Япония", flag: "🇯🇵", usd: 4.20, uah: 172, rub: 394 }
+        ];
+
+        const grid = document.getElementById('catalog-grid');
+        const modal = document.getElementById('buy-modal');
+        const modalClose = document.getElementById('modal-close');
+
+        accounts.forEach((acc, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.animationDelay = (0.03 * index) + 's';
+            card.innerHTML = '<div class="card-country">' + acc.flag + ' ' + acc.country + '</div><div class="card-prices"><div class="price-main">$' + acc.usd.toFixed(2) + '</div><div class="price-alt">' + acc.uah + ' ₴ · ' + acc.rub + ' ₽</div></div><button class="btn buy-btn" data-index="' + index + '">Купить</button>';
+            grid.appendChild(card);
+        });
+
+        document.querySelectorAll('.buy-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const acc = accounts[this.dataset.index];
+                document.getElementById('modal-flag').textContent = acc.flag;
+                document.getElementById('modal-country').textContent = acc.country;
+                document.getElementById('modal-price').textContent = '$' + acc.usd.toFixed(2);
+                document.getElementById('modal-price-alt').textContent = acc.uah + ' ₴ · ' + acc.rub + ' ₽';
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+        const form = document.getElementById('review-form');
+        const submitBtn = document.getElementById('review-submit');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (document.getElementById('website').value) return;
+            const name = document.getElementById('review-name').value.trim();
+            const rating = parseInt(document.getElementById('review-rating').value);
+            const text = document.getElementById('review-text').value.trim();
+            if (!name || !text || name.length < 2 || text.length < 10) { alert('Пожалуйста, заполните отзыв подробнее.'); return; }
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+            setTimeout(function() {
+                const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+                const review = document.createElement('div');
+                review.className = 'review';
+                review.innerHTML = '<div class="review-header"><span class="review-author">' + escapeHtml(name) + '</span><span class="review-stars">' + stars + '</span></div><p class="review-text">' + escapeHtml(text) + '</p>';
+                document.getElementById('reviews-list').prepend(review);
+                form.reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить';
+                review.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        });
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate, .card').forEach(function(el) { observer.observe(el); });
+    </script>
+</body>
+</html>
